@@ -12,6 +12,8 @@ var switches = new function(){
 	
 	var _keyDownMap = Object.create(null);
 	
+	var _listeners = [];
+	
 	document.onkeydown = function(e){
 		if(self.isKeyAllowed(e.keyCode)){
 			clearTimeout(_debounceTimeoutIDMap[e.keyCode]);
@@ -32,6 +34,15 @@ var switches = new function(){
 		console.log("process press: " + isKeyDown(keyCode));
 		
 		// TODO: dispatch press event.
+		var event = Object.create(null);
+		event.name = "switch press";
+		event.keyCode = keyCode;
+		self.dispatchEvent(event);
+		
+		// var e = document.createEvent('Event');
+		// 		e.initEvent('switch press', true, true);
+		// 		e.keyCode = keyCode;
+		// 		this.dispatchEvent(e);
 	};
 	
 	document.onkeyup = function(e){
@@ -51,7 +62,16 @@ var switches = new function(){
 		console.log("process release: " + isKeyDown(keyCode));
 		delete _preAcptTimeoutIDMap[keyCode];
 		
-		// TODO: dispatch release event	
+		// TODO: dispatch release event
+		var event = Object.create(null);
+		event.name = "switch release";
+		event.keyCode = keyCode;
+		self.dispatchEvent(event);
+		
+		// var e = document.createEvent('Event');
+		// e.initEvent('switch release', true, true);
+		// e.keyCode = keyCode;
+		// this.dispatchEvent(e);
 	};
 	
 	this.isKeyAllowed = function(keyCode){
@@ -62,8 +82,31 @@ var switches = new function(){
 		return false;
 	}
 	
-	
 	function isKeyDown(keyCode){
 		return Boolean(keyCode in _keyDownMap);
+	}
+	
+	this.addListener = function(eventName, func){
+		var listener = Object.create(null);
+		listener.name = eventName;
+		listener.func = func;
+		_listeners.push(listener);
+	}
+	
+	this.removeListener = function(eventName, func){
+		for(var i in _listeners){
+			if(_listeners[i].name == eventName && func == _listeners[i].func){
+				delete _listeners[i];
+				return;
+			}
+		}
+	}
+	
+	this.dispatchEvent = function(event){
+		for(var i in _listeners){
+			if(_listeners[i].name == event.name){
+				_listeners[i].func(event);
+			}
+		}
 	}
 };
