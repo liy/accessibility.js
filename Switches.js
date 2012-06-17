@@ -4,10 +4,10 @@ var switches = new function(){
 	// tab, enter, space
 	this.keyCodesAllowed = [9, 13, 32];
 	
-	this.preAcceptance = 1000;
+	this.preAcceptance = 0;
 	var _preAcptTimeoutIDMap = Object.create(null);
 	
-	this.debounce = 1000;
+	this.debounce = 0;
 	var _debounceTimeoutIDMap = Object.create(null);
 	
 	var _keyDownMap = Object.create(null);
@@ -28,10 +28,15 @@ var switches = new function(){
 			
 			_keyDownMap[e.keyCode] = true;
 		}
+		
+		// stop scrolling when space bar pressed and tab action.
+		if(e.keyCode == 9 || e.keyCode == 32){
+			e.preventDefault();
+		}
 	};
 	
 	function processPress(keyCode){
-		console.log("process press: " + isKeyDown(keyCode));
+		// console.log("process press: " + isKeyDown(keyCode));
 		
 		// TODO: dispatch press event.
 		var event = Object.create(null);
@@ -59,7 +64,7 @@ var switches = new function(){
 	};
 	
 	function processRelease(keyCode){
-		console.log("process release: " + isKeyDown(keyCode));
+		// console.log("process release: " + isKeyDown(keyCode));
 		delete _preAcptTimeoutIDMap[keyCode];
 		
 		// TODO: dispatch release event
