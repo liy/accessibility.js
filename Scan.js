@@ -23,6 +23,9 @@
 		this.autoScan = true;
 
 		this.process = function(keyCode){
+			if(this.scanList.length == 0)
+				return;
+			
 			if(this.autoScan){
 				if(!this.isKeyAllowed(keyCode))
 					return;
