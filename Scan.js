@@ -170,24 +170,24 @@
 	
 	// scan list, only avaiable for Scan class
 	function ScanList(){
-
+		
 	};
-	var sp = ScanList.prototype = new Array;
+	var p = ScanList.prototype = new Array;
 	
-	sp.remove = function(item){
+	p.remove = function(item){
 		var index = this.indexOf(item);
 		delete this[index];
 	};
 	
-	sp.removeAt = function(index){
+	p.removeAt = function(index){
 		delete this[index];
 	};
 	
-	sp.add = function(item){
+	p.add = function(item){
 		this.push(item);
 	};
 	
-	sp.clear = function(){
+	p.clear = function(){
 		for(var i=this.length; i>0; --i){
 			delete this[index-1];
 		}
