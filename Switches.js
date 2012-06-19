@@ -29,10 +29,10 @@ var switches = new function(){
 			_keyDownMap[e.keyCode] = true;
 		}
 		
-		// stop scrolling when space bar pressed and tab action.
-		if(e.keyCode == 9 || e.keyCode == 32){
-			e.preventDefault();
-		}
+		// // stop scrolling when space bar pressed and tab action.
+		// if(e.keyCode == 9 || e.keyCode == 32){
+		// 	e.preventDefault();
+		// }
 	};
 	
 	function processPress(keyCode){
@@ -40,7 +40,7 @@ var switches = new function(){
 		
 		// TODO: dispatch press event.
 		var event = Object.create(null);
-		event.name = "switch press";
+		event.type = "switch press";
 		event.keyCode = keyCode;
 		self.dispatchEvent(event);
 		
@@ -69,7 +69,7 @@ var switches = new function(){
 		
 		// TODO: dispatch release event
 		var event = Object.create(null);
-		event.name = "switch release";
+		event.type = "switch release";
 		event.keyCode = keyCode;
 		self.dispatchEvent(event);
 		
@@ -93,14 +93,14 @@ var switches = new function(){
 	
 	this.addListener = function(eventName, func){
 		var listener = Object.create(null);
-		listener.name = eventName;
+		listener.type = eventName;
 		listener.func = func;
 		_listeners.push(listener);
 	}
 	
 	this.removeListener = function(eventName, func){
 		for(var i in _listeners){
-			if(_listeners[i].name == eventName && func == _listeners[i].func){
+			if(_listeners[i].type == eventName && func == _listeners[i].func){
 				delete _listeners[i];
 				return;
 			}
@@ -109,7 +109,7 @@ var switches = new function(){
 	
 	this.dispatchEvent = function(event){
 		for(var i in _listeners){
-			if(_listeners[i].name == event.name){
+			if(_listeners[i].type == event.type){
 				_listeners[i].func(event);
 			}
 		}
