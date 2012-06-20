@@ -14,7 +14,12 @@ var switches = new function(){
 	
 	var _listeners = [];
 	
+	this.enabled = true;
+	
 	document.onkeydown = function(e){
+		if(!self.enabled)
+			return;
+		
 		if(self.isKeyAllowed(e.keyCode)){
 			clearTimeout(_debounceTimeoutIDMap[e.keyCode]);
 			
@@ -28,11 +33,6 @@ var switches = new function(){
 			
 			_keyDownMap[e.keyCode] = true;
 		}
-		
-		// // stop scrolling when space bar pressed and tab action.
-		// if(e.keyCode == 9 || e.keyCode == 32){
-		// 	e.preventDefault();
-		// }
 	};
 	
 	function processPress(keyCode){
@@ -51,6 +51,9 @@ var switches = new function(){
 	};
 	
 	document.onkeyup = function(e){
+		if(!self.enabled)
+			return;
+			
 		if(self.isKeyAllowed(e.keyCode)){
 			clearTimeout(_preAcptTimeoutIDMap[e.keyCode])
 			
